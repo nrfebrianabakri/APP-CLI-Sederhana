@@ -1,47 +1,34 @@
-const fs = require('fs/promises');
+const { addTask, listTasks, completeTask, removeTask } = require('./tasksManager');
 
-// Membaca daftar tugas dari file tasks.json
-async function getTasks() {
-  try {
-    const data = await fs.readFile('tasks.json', 'utf8');
-    const tasks = JSON.parse(data);
-    return tasks;
-  } catch (err) {
-    console.error('Gagal membaca file tasks.json:', err);
-    return []; 
-  }
-}
-
-// Menambah tugas baru
-async function addTask(title) {
-  try {
-   
-    const tasks = await getTasks();
-
-    const newTask = {
-      id: tasks.length + 1,
-      title: title,
-      done: false
-    };
-
-    tasks.push(newTask);
-
-    await fs.writeFile('tasks.json', JSON.stringify(tasks, null, 2));
-
-    console.log(`Tugas "${title}" berhasil ditambahkan!`);
-  } catch (err) {
-    console.error('Gagal menulis ke file tasks.json:', err);
-  }
-}
+const command = process.argv[2];
+const argument = process.argv[3];
 
 async function main() {
-  await addTask('Belajar Node.js');
-  const allTasks = await getTasks();
-  
-  console.log('Daftar Tugas:');
-  allTasks.forEach(task => {
-    console.log(`${task.id}. ${task.title} - ${task.done ? 'Selesai' : 'Belum'}`);
-  });
+  switch (command) {
+    case 'add':
+      if (!argument) return console.log('Masukkan nama tugas!');
+      await addTask(argument);
+      break;
+    case 'list':
+      await listTasks();
+      break;
+    case 'done':
+      if (!argument) return console.log('Masukkan ID tugas!');
+      await completeTask(argument);
+      break;
+    case 'remove':
+      if (!argument) return console.log('Masukkan ID tugas!');
+      await removeTask(argument);
+      break;
+    default:
+      console.log(`
+  Perintah yang tersedia:
+  node index.js add "Nama Tugas"   ➜ Tambah tugas baru
+  node index.js list               ➜ Lihat daftar tugas
+  node index.js done <id>          ➜ Tandai tugas selesai
+  node index.js remove <id>        ➜ Hapus tugas
+`);
+  }
 }
 
 main();

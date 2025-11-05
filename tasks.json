@@ -1,7 +1,17 @@
 [
   {
     "id": 1,
-    "title": "Belajar Node.js",
+    "title": "tugas web app cli",
     "done": false
+  },
+  {
+    "id": 2,
+    "title": "tugas jarkom",
+    "done": false
+  },
+  {
+    "id": 3,
+    "title": "tugas uts pengkodean dan kompresi",
+    "done": true
   }
 ]
