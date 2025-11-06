@@ -11,7 +11,12 @@
   },
   {
     "id": 3,
-    "title": "tugas uts pengkodean dan kompresi",
+    "title": "Tugas ABM",
+    "done": false
+  },
+  {
+    "id": 4,
+    "title": "Tugas kompresi LZW",
     "done": true
   }
 ]
