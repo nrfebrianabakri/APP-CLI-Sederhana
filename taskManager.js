@@ -25,8 +25,12 @@ async function saveTasks(tasks) {
 async function addTask(title) {
   try {
     const tasks = await getTasks();
-    const newTask = { id: tasks.length + 1, title, done: false };
+
+    const maxId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) : 0;
+
+    const newTask = { id: maxId + 1, title, done: false };
     tasks.push(newTask);
+
     await saveTasks(tasks);
     console.log(`Tugas ditambahkan: "${title}" (ID: ${newTask.id})`);
   } catch (error) {
